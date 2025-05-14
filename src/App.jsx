@@ -18,6 +18,9 @@ function App() {
   const [price, setPrice] = useState("");
   const [editId, setEditId] = useState(null);
 
+  // 検索用
+  const [searchTerm, setSearchTerm] = useState("");
+
   // ログイン処理
   const handleLogin = (e) => {
     e.preventDefault();
@@ -34,7 +37,6 @@ function App() {
     if (!name || !stock || !price) return;
 
     if (editId === null) {
-      // 追加
       const newProduct = {
         id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
         name,
@@ -43,7 +45,6 @@ function App() {
       };
       setProducts([...products, newProduct]);
     } else {
-      // 更新
       setProducts(
         products.map((p) =>
           p.id === editId
@@ -53,12 +54,13 @@ function App() {
       );
       setEditId(null);
     }
+
     setName("");
     setStock("");
     setPrice("");
   };
 
-  // 編集ボタン押下時
+  // 編集
   const handleEdit = (product) => {
     setEditId(product.id);
     setName(product.name);
@@ -66,7 +68,7 @@ function App() {
     setPrice(product.price);
   };
 
-  // 削除ボタン押下時
+  // 削除
   const handleDelete = (id) => {
     setProducts(products.filter((p) => p.id !== id));
     if (editId === id) {
@@ -103,11 +105,26 @@ function App() {
     );
   }
 
-  // 在庫管理画面
+  // 商品のフィルタリング（検索対応）
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // 管理画面
   return (
     <div style={{ padding: 24 }}>
       <h1>在庫管理システム</h1>
 
+      {/* 🔍 検索フォーム */}
+      <input
+        type="text"
+        placeholder="商品名で検索"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ marginBottom: 16, padding: 4 }}
+      />
+
+      {/* 商品追加・更新フォーム */}
       <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
         <input
           type="text"
@@ -135,6 +152,7 @@ function App() {
         )}
       </form>
 
+      {/* 商品一覧テーブル */}
       <table border="1" cellPadding="8">
         <thead>
           <tr>
@@ -146,7 +164,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {products.map((p) => (
+          {filteredProducts.map((p) => (
             <tr key={p.id}>
               <td>{p.id}</td>
               <td>{p.name}</td>
