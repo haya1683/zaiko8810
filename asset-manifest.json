@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/zaiko8810/static/css/main.3a242834.css",
+    "main.js": "/zaiko8810/static/js/main.d9d1cdc5.js",
+    "index.html": "/zaiko8810/index.html",
+    "main.3a242834.css.map": "/zaiko8810/static/css/main.3a242834.css.map",
+    "main.d9d1cdc5.js.map": "/zaiko8810/static/js/main.d9d1cdc5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3a242834.css",
+    "static/js/main.d9d1cdc5.js"
+  ]
+}
